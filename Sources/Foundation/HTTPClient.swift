@@ -16,7 +16,7 @@ import Alamofire
  */
 open class HTTPClient {
     /// HTTP Method.
-    enum Method: String {
+    public enum Method: String {
         case get
         case post
         case put
@@ -34,7 +34,7 @@ open class HTTPClient {
     }
 
     /// Data type.
-    enum DataType: String {
+    public enum DataType: String {
         case object   = "Object"
         case pointer  = "Pointer"
         case relation = "Relation"
@@ -45,7 +45,7 @@ open class HTTPClient {
     }
 
     /// Header field name.
-    struct HeaderFieldName {
+    public struct HeaderFieldName {
         static let id         = "X-LC-Id"
         static let signature  = "X-LC-Sign"
         static let session    = "X-LC-Session"
@@ -57,18 +57,18 @@ open class HTTPClient {
     /**
      HTTPClient configuration.
      */
-    struct Configuration {
+    public struct Configuration {
         
         let userAgent: String
         
         static let `default` = Configuration(userAgent: "LeanCloud-Swift-SDK/\(Version.versionString)")
     }
 
-    let application: LCApplication
-    let configuration: Configuration
-    let session: Alamofire.Session
+    public let application: LCApplication
+    public let configuration: Configuration
+    public let session: Alamofire.Session
     
-    var urlCache: URLCache? {
+    public var urlCache: URLCache? {
         return self.session.sessionConfiguration.urlCache
     }
 
@@ -84,12 +84,12 @@ open class HTTPClient {
     }
 
     /// Default completion dispatch queue.
-    let defaultCompletionConcurrentQueue = DispatchQueue(
+    public let defaultCompletionConcurrentQueue = DispatchQueue(
         label: "LC.Swift.\(HTTPClient.self).defaultCompletionConcurrentQueue",
         attributes: .concurrent)
 
     /// Create a signature for request.
-    func createRequestSignature() -> String {
+    public func createRequestSignature() -> String {
         let timestamp = String(format: "%.0f", 1000 * Date().timeIntervalSince1970)
         let hash = (timestamp + application.key).md5.lowercased()
 
@@ -97,7 +97,7 @@ open class HTTPClient {
     }
 
     /// Common REST request headers.
-    func createCommonHeaders() -> [String: String] {
+    public func createCommonHeaders() -> [String: String] {
         var headers: [String: String] = [
             HeaderFieldName.id:        application.id,
             HeaderFieldName.signature: createRequestSignature(),
@@ -120,7 +120,7 @@ open class HTTPClient {
 
      - returns: The endpoint of class name.
      */
-    func getClassEndpoint(className: String) -> String {
+    public func getClassEndpoint(className: String) -> String {
         switch className {
         case LCUser.objectClassName():
             return "users"
@@ -140,7 +140,7 @@ open class HTTPClient {
 
      - returns: The class endpoint of object.
      */
-    func getClassEndpoint(object: LCObject) -> String {
+    public func getClassEndpoint(object: LCObject) -> String {
         return getClassEndpoint(className: object.actualClassName)
     }
 
@@ -151,7 +151,7 @@ open class HTTPClient {
 
      - returns: The endpoint for object.
      */
-    func getObjectEndpoint(object: LCObject) -> String? {
+    public func getObjectEndpoint(object: LCObject) -> String? {
         guard let objectId = object.objectId else {
             return nil
         }
@@ -194,7 +194,7 @@ open class HTTPClient {
 
      - returns: The merged headers.
      */
-    func mergeCommonHeaders(_ headers: [String: String]?) -> [String: String] {
+    public func mergeCommonHeaders(_ headers: [String: String]?) -> [String: String] {
         var result = createCommonHeaders()
 
         headers?.forEach { (key, value) in result[key] = value }
@@ -202,7 +202,7 @@ open class HTTPClient {
         return result
     }
     
-    func response(with error: Error) -> LCResponse {
+    public func response(with error: Error) -> LCResponse {
         return LCResponse(
             application: self.application,
             response: DataResponse<Any, Error>(
@@ -214,7 +214,7 @@ open class HTTPClient {
                 result: .failure(error)))
     }
     
-    func requestCache(
+    public func requestCache(
         url: URL,
         method: HTTPMethod,
         headers: HTTPHeaders,
@@ -266,7 +266,7 @@ open class HTTPClient {
         }
     }
     
-    func request(
+    public func request(
         _ method: Method,
         _ path: String,
         parameters: [String: Any]? = nil,
@@ -336,7 +336,7 @@ open class HTTPClient {
         }
     }
     
-    func request(
+    public func request(
         url: URL,
         method: Method,
         parameters: [String: Any]? = nil,
@@ -371,7 +371,7 @@ open class HTTPClient {
         return LCSingleRequest(request: request)
     }
     
-    func request<T: LCResultType>(
+    public func request<T: LCResultType>(
         error: Error,
         completionQueue: DispatchQueue? = nil,
         completionHandler: @escaping (T) -> Void)
@@ -387,7 +387,7 @@ open class HTTPClient {
         }
     }
     
-    func request<T>(
+    public func request<T>(
         object: T,
         completionQueue: DispatchQueue? = nil,
         completionHandler: @escaping (T) -> Void)
@@ -402,7 +402,7 @@ open class HTTPClient {
 
 extension Request {
     
-    func lcDebugDescription() {
+    public func lcDebugDescription() {
         guard LCApplication.logLevel >= .debug else {
             return
         }
@@ -426,7 +426,7 @@ extension Request {
 
 extension DataResponse {
     
-    func lcDebugDescription(request : Request) {
+    public func lcDebugDescription(request : Request) {
         Logger.shared.debug(closure: { () -> String in
             var message = "\n------ BEGIN LeanCloud HTTP Response\n"
             if let taskIdentifier = request.task?.taskIdentifier {
