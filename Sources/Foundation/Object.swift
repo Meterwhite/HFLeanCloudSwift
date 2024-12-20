@@ -63,7 +63,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         }
         return self.propertyTable
     }()
-    var dictionary: LCDictionary {
+    public var dictionary: LCDictionary {
         return self.optionalSync(LCDictionary(self._dictionary))
     }
 
@@ -73,7 +73,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
     
     private(set) var objectClassName: String?
 
-    var actualClassName: String {
+    public var actualClassName: String {
         if let className = (self["className"] as? LCString)?.value {
             return className
         } else if let className = self.objectClassName {
@@ -304,7 +304,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
     
     // MARK: LCValueExtension
 
-    var lconValue: Any? {
+    public var lconValue: Any? {
         guard let objectId = objectId else {
             return nil
         }
@@ -316,29 +316,29 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         ]
     }
     
-    static func instance(application: LCApplication) -> LCValue {
+    public static func instance(application: LCApplication) -> LCValue {
         return self.init(application: application)
     }
 
-    func forEachChild(_ body: (_ child: LCValue) throws -> Void) rethrows {
+    public func forEachChild(_ body: (_ child: LCValue) throws -> Void) rethrows {
         try dictionary.forEachChild(body)
     }
 
-    func add(_ other: LCValue) throws -> LCValue {
+    public func add(_ other: LCValue) throws -> LCValue {
         throw LCError(code: .invalidType, reason: "Object cannot be added.")
     }
 
-    func concatenate(_ other: LCValue, unique: Bool) throws -> LCValue {
+    public func concatenate(_ other: LCValue, unique: Bool) throws -> LCValue {
         throw LCError(code: .invalidType, reason: "Object cannot be concatenated.")
     }
 
-    func differ(_ other: LCValue) throws -> LCValue {
+    public func differ(_ other: LCValue) throws -> LCValue {
         throw LCError(code: .invalidType, reason: "Object cannot be differed.")
     }
     
     // MARK: Key Value Change
     
-    func getProperty<Value: LCValue>(_ key: String) throws -> Value? {
+    public func getProperty<Value: LCValue>(_ key: String) throws -> Value? {
         let value: LCValueConvertible? = self.optionalSync(self.propertyTable[key])
         if let value = value {
             guard value is Value else {
@@ -354,7 +354,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         return value as? Value
     }
     
-    func loadProperty<Value: LCValue>(_ key: String) throws -> Value {
+    public func loadProperty<Value: LCValue>(_ key: String) throws -> Value {
         if let value: Value = try self.getProperty(key) {
             return value
         }
@@ -373,7 +373,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         return value
     }
     
-    func updateProperty(_ operation: Operation) throws {
+    public func updateProperty(_ operation: Operation) throws {
         guard case let .key(key) = operation.key else {
             return
         }
@@ -442,7 +442,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         }
     }
     
-    func updateByKeyPath(_ operation: Operation) throws {
+    public func updateByKeyPath(_ operation: Operation) throws {
         guard case let .keyPath(key: _, path: path) = operation.key else {
             return
         }
@@ -479,7 +479,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         }
     }
     
-    func addOperation(_ name: Operation.Name, _ key: String, _ value: LCValue? = nil) throws {
+    public func addOperation(_ name: Operation.Name, _ key: String, _ value: LCValue? = nil) throws {
         let operation = try Operation(name: name, key: key, value: value)
         switch operation.key {
         case .key:
@@ -505,7 +505,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         })
     }
     
-    func transformValue(_ key: String, _ value: LCValue?) -> LCValue? {
+    public func transformValue(_ key: String, _ value: LCValue?) -> LCValue? {
         guard let value = value else {
             return nil
         }
@@ -519,7 +519,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         }
     }
     
-    func update(_ key: String, _ value: LCValue?) {
+    public func update(_ key: String, _ value: LCValue?) {
         let value = self.transformValue(key, value)
         self.willChangeValue(forKey: key)
         self.optionalSync(closure: {
@@ -528,7 +528,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         self.didChangeValue(forKey: key)
     }
     
-    func discardChanges() {
+    public func discardChanges() {
         self.optionalSync(closure: {
             self.operationHub?.reset()
         })
