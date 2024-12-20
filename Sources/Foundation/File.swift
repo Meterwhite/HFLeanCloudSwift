@@ -9,7 +9,7 @@
 import Foundation
 
 /// LeanCloud File Type
-public class LCFile: LCObject {
+open class LCFile: LCObject {
     
     public final override class func objectClassName() -> String {
         return "_File"

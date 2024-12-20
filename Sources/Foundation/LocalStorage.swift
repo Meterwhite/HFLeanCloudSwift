@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LocalStorageContext {
+open class LocalStorageContext {
     static let domain: String = "com.leancloud.swift"
     
     enum Place {

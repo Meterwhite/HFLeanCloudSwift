@@ -12,7 +12,7 @@ import Alamofire
 /**
  This type represents HTTP request.
  */
-public class LCRequest: NSObject {
+open class LCRequest: NSObject {
 
     /**
      Request states.

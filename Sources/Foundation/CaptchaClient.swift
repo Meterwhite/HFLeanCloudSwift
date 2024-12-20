@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class LCCaptchaClient {
+open class LCCaptchaClient {
     
     /// Captcha
     public struct Captcha: Codable {

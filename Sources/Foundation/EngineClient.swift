@@ -9,7 +9,7 @@
 import Foundation
 
 /// LeanCloud Cloud Engine Client
-public class LCEngine {
+open class LCEngine {
     
     /// Call the cloud function synchronously.
     /// - Parameters:

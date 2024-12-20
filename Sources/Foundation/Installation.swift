@@ -11,7 +11,7 @@ import Foundation
 /**
  LeanCloud installation type.
  */
-public class LCInstallation: LCObject {
+open class LCInstallation: LCObject {
 
     /// The badge of installation.
     @objc dynamic public var badge: LCNumber?

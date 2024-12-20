@@ -12,7 +12,7 @@ import Foundation
 ///
 /// an `LCApplication` object is an abstraction of LeanCloud application,
 /// it is the context of application-specific settings and objects.
-public class LCApplication {
+open class LCApplication {
     
     // MARK: Registry
     

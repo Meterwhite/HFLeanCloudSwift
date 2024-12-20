@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-final class LCResponse {
+public final class LCResponse {
     let application: LCApplication
     let response: Alamofire.DataResponse<Any, Error>
 

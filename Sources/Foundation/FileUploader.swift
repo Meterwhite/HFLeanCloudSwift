@@ -16,7 +16,7 @@ import MobileCoreServices
 /**
  File uploader.
  */
-class FileUploader {
+open class FileUploader {
     let file: LCFile
     let payload: LCFile.Payload
     let options: LCFile.Options

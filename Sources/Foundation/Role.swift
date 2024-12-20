@@ -14,7 +14,7 @@ import Foundation
  A type to group user for access control.
  Conceptually, it is equivalent to UNIX user group.
  */
-public class LCRole: LCObject {
+open class LCRole: LCObject {
     /**
      Name of role.
 

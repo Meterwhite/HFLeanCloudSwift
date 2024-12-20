@@ -9,7 +9,7 @@
 import Foundation
 
 /// LeanCloud Push Client
-public class LCPush {
+open class LCPush {
     
     /// Send push notification synchronously.
     /// - Parameters:

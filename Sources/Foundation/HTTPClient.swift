@@ -14,7 +14,7 @@ import Alamofire
 
  This class manages requests for LeanCloud REST API.
  */
-class HTTPClient {
+open class HTTPClient {
     /// HTTP Method.
     enum Method: String {
         case get

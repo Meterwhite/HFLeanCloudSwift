@@ -9,7 +9,7 @@
 import Foundation
 
 /// LeanCloud List Type
-public class LCArray: NSObject, LCValue, Collection, ExpressibleByArrayLiteral {
+open class LCArray: NSObject, LCValue, Collection, ExpressibleByArrayLiteral {
     public typealias Index = Int
     public typealias Element = LCValue
 

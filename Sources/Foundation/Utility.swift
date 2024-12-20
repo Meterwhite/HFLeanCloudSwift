@@ -13,7 +13,7 @@ import UIKit
 import IOKit
 #endif
 
-class Utility {
+open class Utility {
     static var compactUUID: String {
         return UUID().uuidString
             .replacingOccurrences(of: "-", with: "")

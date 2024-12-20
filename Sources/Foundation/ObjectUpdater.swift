@@ -13,7 +13,7 @@ import Foundation
 
  This class can be used to create, update and delete object.
  */
-class ObjectUpdater {
+open class ObjectUpdater {
     typealias BatchResponse = [String: [String: Any]]
 
     /**

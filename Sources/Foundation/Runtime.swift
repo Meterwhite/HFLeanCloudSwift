@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Runtime {
+open class Runtime {
     /**
      Get all properties of a class.
 

@@ -13,7 +13,7 @@ import Foundation
 
  Used to present an action of object update.
  */
-class Operation {
+open class Operation {
     
     static let key: String = "__op"
     

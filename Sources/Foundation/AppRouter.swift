@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AppRouter: InternalSynchronizing {
+open class AppRouter: InternalSynchronizing {
     
     // MARK: Constant
     

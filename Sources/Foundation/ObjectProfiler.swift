@@ -16,7 +16,7 @@ extension LCError {
 
 }
 
-class ObjectProfiler {
+open class ObjectProfiler {
     private init() {
         registerClasses()
     }

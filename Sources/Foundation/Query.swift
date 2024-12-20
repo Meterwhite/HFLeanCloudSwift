@@ -9,7 +9,7 @@
 import Foundation
 
 /// Query
-public class LCQuery: NSObject, NSCopying, NSCoding {
+open class LCQuery: NSObject, NSCopying, NSCoding {
     
     /// The application this query belong to.
     public let application: LCApplication

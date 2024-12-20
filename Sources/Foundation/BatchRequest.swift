@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BatchRequest {
+open class BatchRequest {
     let object: LCObject
     let method: HTTPClient.Method?
     let operationTable: OperationTable?

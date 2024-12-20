@@ -9,7 +9,7 @@
 import Foundation
 
 /// Short Message Service (SMS) Client, you can use it to send short message to mobile phone.
-public class LCSMSClient {
+open class LCSMSClient {
     
     // MARK: Request Short Message
     
