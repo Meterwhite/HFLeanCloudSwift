@@ -21,7 +21,7 @@ open class ObjectProfiler {
         registerClasses()
     }
 
-    static let shared = ObjectProfiler()
+    public static let shared = ObjectProfiler()
 
     /// Registered object class table indexed by class name.
     var objectClassTable: [String: LCObject.Type] = [:]
@@ -355,7 +355,7 @@ open class ObjectProfiler {
 
      - returns: An array of objects in family.
      */
-    func family(_ objects: [LCObject]) throws -> [LCObject] {
+    public func family(_ objects: [LCObject]) throws -> [LCObject] {
         var result: [LCObject] = []
         var visitStateTable: [Int: VisitState] = [:]
 
@@ -405,7 +405,7 @@ open class ObjectProfiler {
 
      - parameter objects: The objects to validate.
      */
-    func validateCircularReference(_ objects: [LCObject]) throws {
+    public func validateCircularReference(_ objects: [LCObject]) throws {
         var visitStateTable: [Int: VisitState] = [:]
 
         try objects.unique.forEach { object in
@@ -455,7 +455,7 @@ open class ObjectProfiler {
 
      - returns: true if value is a boolean, false otherwise.
      */
-    func isBoolean(_ jsonValue: Any) -> Bool {
+    public func isBoolean(_ jsonValue: Any) -> Bool {
         switch String(describing: type(of: jsonValue)) {
         case "__NSCFBoolean", "Bool": return true
         default: return false
@@ -469,7 +469,7 @@ open class ObjectProfiler {
 
      - returns: The class.
      */
-    func objectClass(_ className: String) -> LCObject.Type? {
+    public func objectClass(_ className: String) -> LCObject.Type? {
         return objectClassTable[className]
     }
 
@@ -480,7 +480,7 @@ open class ObjectProfiler {
 
      - returns: An LCObject object for class name.
      */
-    func object(application: LCApplication, className: String) -> LCObject {
+    public func object(application: LCApplication, className: String) -> LCObject {
         if let objectClass = objectClass(className) {
             return objectClass.init(application: application)
         } else {
@@ -496,7 +496,7 @@ open class ObjectProfiler {
 
      - returns: An LCObject object.
      */
-    func object(application: LCApplication, dictionary: [String: Any], className: String) throws -> LCObject {
+    public func object(application: LCApplication, dictionary: [String: Any], className: String) throws -> LCObject {
         let result = object(application: application, className: className)
         let keyValues = try dictionary.compactMapValue { try object(application: application, jsonValue: $0) }
 
@@ -515,7 +515,7 @@ open class ObjectProfiler {
 
      - returns: An LCValue object, or nil if object can not be decoded.
      */
-    func object(application: LCApplication, dictionary: [String: Any], dataType: HTTPClient.DataType) throws -> LCValue? {
+    public func object(application: LCApplication, dictionary: [String: Any], dataType: HTTPClient.DataType) throws -> LCValue? {
         switch dataType {
         case .object,
              .pointer:
@@ -541,7 +541,7 @@ open class ObjectProfiler {
 
      - returns: An LCValue object.
      */
-    private func object(application: LCApplication, dictionary: [String: Any]) throws -> LCValue {
+    public func object(application: LCApplication, dictionary: [String: Any]) throws -> LCValue {
         var result: LCValue!
 
         if let type = dictionary["__type"] as? String {
@@ -564,7 +564,7 @@ open class ObjectProfiler {
 
      - returns: An LCValue object of the corresponding JSON value.
      */
-    func object(application: LCApplication, jsonValue: Any) throws -> LCValue {
+    public func object(application: LCApplication, jsonValue: Any) throws -> LCValue {
         switch jsonValue {
         /* Note: a bool is also a number, we must match it first. */
         case let bool where isBoolean(bool):
@@ -599,7 +599,7 @@ open class ObjectProfiler {
 
      - returns: The JSON value of object.
      */
-    func lconValue(_ object: Any) -> Any? {
+    public func lconValue(_ object: Any) -> Any? {
         switch object {
         case let array as [Any]:
             return array.compactMap { lconValue($0) }
@@ -620,7 +620,7 @@ open class ObjectProfiler {
      - parameter object:     The object to be updated.
      - parameter dictionary: A dictionary of key-value pairs.
      */
-    func updateObject(_ object: LCObject, _ dictionary: [String: Any]) {
+    public func updateObject(_ object: LCObject, _ dictionary: [String: Any]) {
         dictionary.forEach { (key, value) in
             do {
                 let new = try self.object(application: object.application, jsonValue: value)
@@ -638,7 +638,7 @@ open class ObjectProfiler {
 
      - returns: A property name correspond to the setter selector.
      */
-    func propertyName(_ setter: Selector) -> String {
+    public func propertyName(_ setter: Selector) -> String {
         var propertyName = NSStringFromSelector(setter)
         
         let startIndex: String.Index = propertyName.index(propertyName.startIndex, offsetBy: 3)
@@ -656,7 +656,7 @@ open class ObjectProfiler {
 
      - returns: The property value, or nil if such a property not found.
      */
-    func propertyValue(_ object: LCObject, _ propertyName: String) -> LCValue? {
+    public func propertyValue(_ object: LCObject, _ propertyName: String) -> LCValue? {
         guard hasLCValue(object, propertyName) else {
             return nil
         }
@@ -667,7 +667,7 @@ open class ObjectProfiler {
     /**
      Getter implementation of LeanCloud data type property.
      */
-    let propertyGetter: @convention(c) (LCObject, Selector) -> Any? = {
+    public let propertyGetter: @convention(c) (LCObject, Selector) -> Any? = {
         (object: LCObject, cmd: Selector) -> Any? in
         let key = NSStringFromSelector(cmd)
         return object[key]
@@ -676,7 +676,7 @@ open class ObjectProfiler {
     /**
      Setter implementation of LeanCloud data type property.
      */
-    let propertySetter: @convention(c) (LCObject, Selector, Any?) -> Void = {
+    public let propertySetter: @convention(c) (LCObject, Selector, Any?) -> Void = {
         (object: LCObject, cmd: Selector, value: Any?) -> Void in
         let key = ObjectProfiler.shared.propertyName(cmd)
         let value = value as? LCValueConvertible
