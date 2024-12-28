@@ -211,7 +211,7 @@ open class LCObject: NSObject, Sequence, LCValue, LCValueExtension, InternalOpti
         self.objectId = objectId.lcString
     }
 
-    convenience init(application: LCApplication, dictionary: LCDictionaryConvertible) {
+    public convenience init(application: LCApplication, dictionary: LCDictionaryConvertible) {
         self.init(application: application)
         for (key, value) in dictionary.lcDictionary {
             self.propertyTable[key] = value
